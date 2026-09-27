@@ -4,14 +4,19 @@
   "type": "script",
   "language": "cpp",
   "version": "1.0.0",
+  "release": "stable",
   "status": "normal",
   "license": "MIT",
   "author": "22",
   "maintainer": "22",
   "published": "2026-09-27",
+  "architectures": ["source"],
   "source": "scripts/cpp/BinarySearchTree.cpp",
   "distribution": {
     "type": "source",
-    "path": "scripts/cpp/BinarySearchTree.cpp"
+    "path": "scripts/cpp/BinarySearchTree.cpp",
+    "architectures": {
+      "source": "scripts/cpp/BinarySearchTree.cpp"
+    }
   }
 }

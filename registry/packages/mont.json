@@ -4,14 +4,19 @@
   "type": "library",
   "language": "python",
   "version": "1.0.0",
+  "release": "stable",
   "status": "normal",
   "license": "MIT",
   "author": "22",
   "maintainer": "22",
   "published": "2026-09-27",
+  "architectures": ["any"],
   "source": "libraries/python/mont.zip",
   "distribution": {
     "type": "archive",
-    "path": "libraries/python/mont.zip"
+    "path": "libraries/python/mont.zip",
+    "architectures": {
+      "any": "libraries/python/mont.zip"
+    }
   }
 }

@@ -4,14 +4,19 @@
   "type": "script",
   "language": "web",
   "version": "1.0.0",
+  "release": "stable",
   "status": "normal",
   "license": "MIT",
   "author": "22",
   "maintainer": "22",
   "published": "2026-09-27",
+  "architectures": ["source"],
   "source": "scripts/web/glassmorphism_card.html",
   "distribution": {
     "type": "source",
-    "path": "scripts/web/glassmorphism_card.html"
+    "path": "scripts/web/glassmorphism_card.html",
+    "architectures": {
+      "source": "scripts/web/glassmorphism_card.html"
+    }
   }
 }

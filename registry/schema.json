@@ -1,0 +1,30 @@
+{
+  "registry_version": "1.0",
+  "package_required_fields": [
+    "id",
+    "name",
+    "type",
+    "language",
+    "version",
+    "release",
+    "status",
+    "license",
+    "author",
+    "maintainer",
+    "published",
+    "architectures",
+    "source",
+    "distribution"
+  ],
+  "types": ["library", "script"],
+  "releases": ["stable", "beta", "experimental", "deprecated"],
+  "architecture_values": [
+    "any",
+    "source",
+    "armv7",
+    "arm64",
+    "x86",
+    "x86_64"
+  ],
+  "rule": "Binary/native libraries use architecture-specific artifacts; pure-source or architecture-independent packages may use any/source."
+}
