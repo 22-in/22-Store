@@ -1,0 +1,17 @@
+{
+  "id": "glassmorphism_card",
+  "name": "glassmorphism_card",
+  "type": "script",
+  "language": "web",
+  "version": "1.0.0",
+  "status": "normal",
+  "license": "MIT",
+  "author": "22",
+  "maintainer": "22",
+  "published": "2026-09-27",
+  "source": "scripts/web/glassmorphism_card.html",
+  "distribution": {
+    "type": "source",
+    "path": "scripts/web/glassmorphism_card.html"
+  }
+}

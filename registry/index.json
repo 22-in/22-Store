@@ -1,0 +1,10 @@
+{
+  "registry_version": "1.0",
+  "packages": {
+    "google_generativeai": "registry/packages/google_generativeai.json",
+    "mont": "registry/packages/mont.json",
+    "BinarySearchTree": "registry/packages/BinarySearchTree.json",
+    "AdvancedEncryption": "registry/packages/AdvancedEncryption.json",
+    "glassmorphism_card": "registry/packages/glassmorphism_card.json"
+  }
+}
