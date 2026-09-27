@@ -1,43 +1,89 @@
 # 22 Store 🚀
 
-### The Open-Source Package & Script Registry
+### Open-Source Library & Script Store
 
-**22 Store** is the community distribution system for reusable developer resources.
+**22 Store** is a free, community-driven collection of reusable libraries and ready-to-use scripts for developers.
 
-It supports two kinds of resources:
-
-- **Libraries** — reusable packages installed with `22 install <name>`
-- **Scripts** — ready-to-use tools downloaded with `22 get <name>`
-
-The Store is designed for **QuickCode** first, while remaining usable by other developers and applications.
+It is built to make code easier to **find, download, reuse, and share** across different projects and languages.
 
 ---
 
-## 📦 Resource Types
+## 📦 What's in 22 Store?
+
+22 Store has two main resource types:
 
 ### Libraries
 
-Libraries are reusable packages/modules that can be installed into a development environment.
+Reusable packages or modules that can be added to a project and used by other code.
+
+Libraries are suitable for things such as:
+
+- APIs and SDKs
+- utilities and helper modules
+- AI or automation libraries
+- reusable application logic
+- language-specific packages
+
+### Scripts
+
+Ready-to-use programs or tools that can be downloaded and used directly.
+
+Scripts are suitable for things such as:
+
+- utilities
+- automation tools
+- small developer tools
+- examples and standalone programs
+
+---
+
+## 💻 QuickCode
+
+22 Store is integrated with **QuickCode**, where Store resources can be accessed through QuickCode's own command system.
+
+### Install a Library
+
+Inside QuickCode:
+
+```bash
+22 install <name>
+```
+
+Example:
 
 ```bash
 22 install google_generativeai
 ```
 
-### Scripts
+This command tells QuickCode to find the requested library in the 22 Store registry and install the appropriate package.
 
-Scripts are standalone, ready-to-use resources.
+### Get a Script
+
+Inside QuickCode:
+
+```bash
+22 get <name>
+```
+
+Example:
 
 ```bash
 22 get calculator
 ```
 
-A script can then be placed into the user's currently active/open project folder.
+The requested script is downloaded from the Store and placed into the currently active project folder in QuickCode.
+
+> **Important:** `22 install` and `22 get` are QuickCode commands. They are not commands provided by GitHub or by this repository itself.
+>
+> Other developers and applications can use the 22 Store registry with their own commands, interfaces, installers, or workflows.
 
 ---
 
 ## 🌍 Multi-Language Support
 
-Resources are separated by language:
+22 Store is designed to support resources written in different languages.
+
+Current structure:
 
 ```text
 libraries/
@@ -53,62 +99,70 @@ scripts/
 └── web/
 ```
 
-Future languages can be added without changing the registry model.
+Additional languages can be added as the Store grows.
+
+The language of a resource does not determine how another application has to access it. Developers are free to integrate Store resources into their own tools in the way that fits their project.
 
 ---
 
-## 🧭 Registry
+## 🧭 How the Store Works
 
-The registry is the source of truth for package discovery and distribution.
-
-```text
-registry/
-├── index.json
-├── schema.json
-└── packages/
-    ├── <package-id>.json
-    └── ...
-```
-
-A client should **not hardcode package download URLs**.
-
-The intended V3 flow is:
+The repository contains both the actual resources and a registry that describes them.
 
 ```text
-22 install <name>
-        ↓
-registry/index.json
-        ↓
-package metadata
-        ↓
-compatible artifact
-        ↓
-install
+Developer
+   │
+   ├── finds a resource
+   │
+   ├── reads its metadata
+   │
+   └── downloads the appropriate file
+   │
+   ▼
+22 Store
 ```
 
-The same registry model is used for `22 get <name>`.
+The registry provides machine-readable information such as:
 
-This lets the Store change package locations, add versions, and provide different artifacts without requiring a client update.
+- package ID
+- name
+- type
+- language
+- version
+- release status
+- supported architectures
+- source
+- available distribution files
+
+Applications can use this information to discover and download resources without relying on hardcoded package URLs.
 
 ---
 
-## 🏗️ Architecture Compatibility
+## 🏗️ Architecture Support
 
-Architecture-independent packages can use:
+Some resources are architecture-independent, while others contain native or compiled components.
+
+### Architecture-independent
+
+A pure-source or architecture-independent package may declare:
 
 ```json
 "architectures": ["any"]
 ```
 
-Native/binary packages must declare their supported architectures and provide matching artifacts, for example:
+### Native / compiled resources
+
+If a resource contains architecture-dependent native binaries, it must declare the architectures it actually supports.
+
+Example:
 
 ```json
 "architectures": ["armv7", "arm64"]
 ```
 
-A package containing native components is **not** `any` merely because its main language is Python.
+A package is **not** automatically `any` just because its primary language is Python. If it contains native components, those components determine the required architecture support.
 
-Current architecture values:
+Current architecture identifiers include:
 
 - `any`
 - `source`
@@ -119,75 +173,134 @@ Current architecture values:
 
 ---
 
-## 🔄 QuickCode V2 Compatibility
+## 🔎 Finding Resources
 
-QuickCode V2 currently uses the legacy `libs.json` format.
+Each resource has metadata in the registry.
 
-**Do not remove `libs.json` yet.**
+The registry is organized as:
 
-V2 continues to resolve its existing libraries through that file, while V3 is being designed around the registry.
+```text
+registry/
+├── index.json
+├── schema.json
+└── packages/
+    ├── <package-id>.json
+    └── ...
+```
 
-This keeps V2 compatible without forcing V3 to keep the old architecture.
+The index connects a resource's stable ID to its metadata.
 
----
-
-## 🛡️ Review & Security
-
-Community contributions are reviewed before publication.
-
-The planned process includes:
-
-1. Contributor submits a resource.
-2. Automated checks inspect the submission.
-3. Security/malware checks provide additional signals.
-4. Human review verifies the resource.
-5. Approved resources are published to the registry.
-
-A security finding should quarantine the affected resource rather than automatically removing unrelated legitimate resources.
-
-Repeated malicious submissions can result in escalating strikes and a permanent contributor ban.
+Package metadata can describe the resource, its version, license, author, maintainer, supported architectures, and distribution files.
 
 ---
 
 ## 🤝 Contributing
 
-Contributors should submit resources in the correct language and resource-type directory.
+Want to add something to 22 Store?
 
-Before submission, make sure the resource:
+The basic contribution flow is:
+
+```text
+Create / prepare resource
+        ↓
+Choose Library or Script
+        ↓
+Choose the correct language
+        ↓
+Add accurate metadata
+        ↓
+Submit contribution
+        ↓
+Review
+        ↓
+Publication
+```
+
+Before submitting, make sure your contribution:
 
 - works as described
-- includes accurate metadata
+- is placed in the correct resource and language directory
+- has accurate metadata
 - respects its original license and copyright
 - does not contain malicious or unauthorized code
-- follows the Store's package structure
+- is safe for others to use
 
-If a contributor's code is later modified or maintained by 22, the registry should preserve both the original author and the 22 maintainer attribution.
+If a contribution is later modified or maintained by 22, the original author and 22's maintainer role should both remain properly attributed.
+
+---
+
+## 🛡️ Review & Security
+
+Contributions are reviewed before publication.
+
+The review process may include:
+
+1. Automated validation
+2. Malware and security checks
+3. Manual review
+4. Metadata and license verification
+5. Publication after approval
+
+Automated security checks are signals for review; human review remains important.
+
+If a resource is found to be malicious or unsafe, the affected resource can be quarantined or unpublished so that unrelated resources remain available.
+
+Repeated malicious submissions may result in contributor restrictions or a permanent ban.
 
 ---
 
 ## 📜 Licensing
 
-22 Store uses the MIT license for the repository itself.
+The 22 Store repository is licensed under the **MIT License**.
 
-Individual packages must respect their actual upstream licenses and copyright requirements. A contributor must have the right to submit code under the license declared in its package metadata.
+For individual resources, contributors must have the right to submit the code under the license declared for that resource.
 
-The Store must not automatically relicense third-party code simply because it is hosted here.
+Third-party code must retain its applicable copyright notices, attribution, and license requirements.
+
+Hosting code in 22 Store does not automatically change its original license.
 
 ---
 
-## 🚀 Current Status
+## 📁 Repository Structure
 
-The registry foundation is being built incrementally.
+```text
+22-Store/
+├── libraries/
+│   ├── python/
+│   ├── java/
+│   ├── cpp/
+│   └── web/
+│
+├── scripts/
+│   ├── python/
+│   ├── java/
+│   ├── cpp/
+│   └── web/
+│
+├── registry/
+│   ├── index.json
+│   ├── schema.json
+│   └── packages/
+│
+├── libs.json
+├── LICENSE
+└── README.md
+```
 
-Current goals:
+---
 
-- stable package IDs
-- library/script separation
-- multi-language support
-- architecture-aware artifacts
-- version-aware distribution
-- secure community publishing
-- QuickCode V3 integration
+## 🌱 Built for Developers
+
+Whether you are:
+
+- **Exploring** the Store
+- **Downloading** a resource for your project
+- **Integrating** the registry into your own application
+- **Contributing** a library or script
+
+22 Store is designed to keep the process simple and understandable.
+
+---
 
 ### Happy Coding 💻
 
