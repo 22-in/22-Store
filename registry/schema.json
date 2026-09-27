@@ -1,5 +1,10 @@
 {
   "registry_version": "1.0",
+  "index_required_fields": [
+    "registry_version",
+    "packages"
+  ],
+  "package_entry_rule": "Each packages entry maps a stable package ID to its package metadata path.",
   "package_required_fields": [
     "id",
     "name",
@@ -26,5 +31,10 @@
     "x86",
     "x86_64"
   ],
-  "rule": "Binary/native libraries use architecture-specific artifacts; pure-source or architecture-independent packages may use any/source."
+  "rules": [
+    "Binary/native libraries use architecture-specific artifacts; pure-source or architecture-independent packages may use any/source.",
+    "A package ID is the stable machine-readable identifier used by registry clients.",
+    "Package names are human-facing and may differ from package IDs.",
+    "Clients should resolve package metadata through registry/index.json instead of hardcoding artifact URLs."
+  ]
 }

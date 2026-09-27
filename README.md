@@ -1,181 +1,194 @@
 # 22 Store 🚀
 
-### The Open-Source Community Code Bank
+### The Open-Source Package & Script Registry
 
-Welcome to **22 Store** — a modern, open-source ecosystem built for developers who love creating, sharing, and learning together.
-Think of it as a collaborative **Code Bank** where reusable scripts, tools, snippets, and logic modules are stored for everyone.
+**22 Store** is the community distribution system for reusable developer resources.
 
-Whether it's a lightweight automation script or a powerful multi-language utility, **22 Store** aims to make development faster, cleaner, and more accessible.
+It supports two kinds of resources:
 
----
+- **Libraries** — reusable packages installed with `22 install <name>`
+- **Scripts** — ready-to-use tools downloaded with `22 get <name>`
 
-# 🌍 Vision
-
-The goal of **22 Store** is simple:
-
-> Build one of the largest community-driven collections of reusable code resources for developers.
-
-Instead of rewriting the same logic repeatedly, developers can contribute once and help thousands of others save time.
-
-Every contribution — big or small — becomes part of a growing ecosystem.
+The Store is designed for **QuickCode** first, while remaining usable by other developers and applications.
 
 ---
 
-# ⚡ QuickCode Ecosystem Integration
+## 📦 Resource Types
 
-22 Store is designed to work alongside the **QuickCode** ecosystem, enabling developers to:
+### Libraries
 
-* Share reusable code modules
-* Install scripts directly into local environments
-* Access categorized resources instantly
-* Build faster using community-powered logic
-
-The ecosystem is focused on:
-
-* Simplicity
-* Modularity
-* Open collaboration
-* Multi-language support
-
----
-
-# 📂 Repository Structure
-
-To keep the repository organized and scalable, upload code to the appropriate folder:
+Libraries are reusable packages/modules that can be installed into a development environment.
 
 ```bash
-/python   → Python automation, AI tools, Kivy modules, utilities
-/java     → Java logic, Android-related code, backend snippets
-/cpp      → High-performance algorithms and system-level functions
-/web      → HTML, CSS, JavaScript UI components and web utilities
+22 install google_generativeai
 ```
 
-Future language support may include:
+### Scripts
 
-* Rust
-* Go
-* Kotlin
-* TypeScript
-* AI model templates
-* API modules
+Scripts are standalone, ready-to-use resources.
 
----
+```bash
+22 get calculator
+```
 
-# 🛠️ Contribution Guidelines
-
-Community contributions are the heart of 22 Store.
-
-To contribute:
-
-1. **Fork** the repository
-2. Upload your code to the correct language folder
-3. Ensure the script is:
-
-   * Functional
-   * Cleanly written
-   * Properly commented
-   * Safe to use
-4. Submit a **Pull Request (PR)**
+A script can then be placed into the user's currently active/open project folder.
 
 ---
 
-# ✅ Review Process
+## 🌍 Multi-Language Support
 
-To maintain quality and security:
+Resources are separated by language:
 
-* All Pull Requests are manually reviewed
-* Only verified and stable scripts are merged
-* Duplicate or low-quality submissions may be rejected
-* Reviews are generally performed weekly
+```text
+libraries/
+├── python/
+├── java/
+├── cpp/
+└── web/
 
-This helps keep the ecosystem reliable for everyone.
+scripts/
+├── python/
+├── java/
+├── cpp/
+└── web/
+```
 
----
-
-# 📜 License
-
-This project is licensed under the **MIT License**.
-
-You are free to:
-
-* Use
-* Modify
-* Distribute
-* Improve
-
-the code with minimal restrictions.
-
-See the LICENSE file for complete details.
+Future languages can be added without changing the registry model.
 
 ---
 
-# 🏛️ Core Philosophy
+## 🧭 Registry
 
-22 Store is inspired by the principles of
-Maharaja Agrasen and the idea of **"Sahyog" (Collaboration).**
+The registry is the source of truth for package discovery and distribution.
 
-Just as the philosophy of
-**“One Rupee and One Brick”** helped build strong communities,
-every single contribution to 22 Store helps create a massive digital resource for developers around the world.
+```text
+registry/
+├── index.json
+├── schema.json
+└── packages/
+    ├── <package-id>.json
+    └── ...
+```
 
-Even one useful script can save hours for someone else.
+A client should **not hardcode package download URLs**.
 
----
+The intended V3 flow is:
 
-# 💡 Why 22 Store?
+```text
+22 install <name>
+        ↓
+registry/index.json
+        ↓
+package metadata
+        ↓
+compatible artifact
+        ↓
+install
+```
 
-### 🚀 Fast Development
+The same registry model is used for `22 get <name>`.
 
-Reuse existing logic instead of rebuilding from scratch.
-
-### 🌎 Community Driven
-
-Built by developers, for developers.
-
-### 📦 Modular Ecosystem
-
-Easy-to-use categorized code structure.
-
-### 🔓 Open Source
-
-Transparent, expandable, and freely accessible.
-
-### 🧠 Learning Friendly
-
-Perfect for beginners exploring real-world logic and projects.
+This lets the Store change package locations, add versions, and provide different artifacts without requiring a client update.
 
 ---
 
-# 🤝 Join the Community
+## 🏗️ Architecture Compatibility
 
-If you believe in:
+Architecture-independent packages can use:
 
-* Open collaboration
-* Sharing knowledge
-* Building useful tools
-* Helping developers grow
+```json
+"architectures": ["any"]
+```
 
-then 22 Store is for you.
+Native/binary packages must declare their supported architectures and provide matching artifacts, for example:
 
-Every commit matters.
-Every script contributes.
-Every developer helps shape the ecosystem.
+```json
+"architectures": ["armv7", "arm64"]
+```
+
+A package containing native components is **not** `any` merely because its main language is Python.
+
+Current architecture values:
+
+- `any`
+- `source`
+- `armv7`
+- `arm64`
+- `x86`
+- `x86_64`
+
+---
+
+## 🔄 QuickCode V2 Compatibility
+
+QuickCode V2 currently uses the legacy `libs.json` format.
+
+**Do not remove `libs.json` yet.**
+
+V2 continues to resolve its existing libraries through that file, while V3 is being designed around the registry.
+
+This keeps V2 compatible without forcing V3 to keep the old architecture.
 
 ---
 
-# ⭐ Support the Project
+## 🛡️ Review & Security
 
-If this project helps you:
+Community contributions are reviewed before publication.
 
-* Star the repository
-* Share it with other developers
-* Contribute useful scripts
-* Help improve documentation
+The planned process includes:
 
-Together, we can build something massive.
+1. Contributor submits a resource.
+2. Automated checks inspect the submission.
+3. Security/malware checks provide additional signals.
+4. Human review verifies the resource.
+5. Approved resources are published to the registry.
+
+A security finding should quarantine the affected resource rather than automatically removing unrelated legitimate resources.
+
+Repeated malicious submissions can result in escalating strikes and a permanent contributor ban.
 
 ---
+
+## 🤝 Contributing
+
+Contributors should submit resources in the correct language and resource-type directory.
+
+Before submission, make sure the resource:
+
+- works as described
+- includes accurate metadata
+- respects its original license and copyright
+- does not contain malicious or unauthorized code
+- follows the Store's package structure
+
+If a contributor's code is later modified or maintained by 22, the registry should preserve both the original author and the 22 maintainer attribution.
+
+---
+
+## 📜 Licensing
+
+22 Store uses the MIT license for the repository itself.
+
+Individual packages must respect their actual upstream licenses and copyright requirements. A contributor must have the right to submit code under the license declared in its package metadata.
+
+The Store must not automatically relicense third-party code simply because it is hosted here.
+
+---
+
+## 🚀 Current Status
+
+The registry foundation is being built incrementally.
+
+Current goals:
+
+- stable package IDs
+- library/script separation
+- multi-language support
+- architecture-aware artifacts
+- version-aware distribution
+- secure community publishing
+- QuickCode V3 integration
 
 ### Happy Coding 💻
 
-### Welcome to the future of collaborative development — **22 Store** 🚀
+**22 Store — Harvesting Potential Everywhere.**
