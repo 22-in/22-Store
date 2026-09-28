@@ -1,0 +1,7 @@
+{
+  "registry_version": "1.0",
+  "aliases": {
+    "google-generativeai": "google_generativeai",
+    "generativeai": "google_generativeai"
+  }
+}
